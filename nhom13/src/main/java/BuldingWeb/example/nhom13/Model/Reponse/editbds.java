@@ -5,6 +5,7 @@ import BuldingWeb.example.nhom13.Enums.LoaiBDS;
 import BuldingWeb.example.nhom13.Enums.NoiThat;
 import BuldingWeb.example.nhom13.Enums.TrangThaiBDS;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -37,5 +38,6 @@ public class editbds{
     private String anhChinh;
     private LocalDateTime ngayTao;
 
-    private List<String> duongDan;
+    private MultipartFile anhChinhFile;
+    private Boolean removeCurrentMainImage;
 }

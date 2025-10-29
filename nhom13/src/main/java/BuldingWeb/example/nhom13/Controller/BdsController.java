@@ -39,7 +39,7 @@ public class BdsController {
         return ResponseEntity.noContent().build();
     }
     @PutMapping("/{id}")
-    public ResponseEntity<editbds> updateBds(@PathVariable("id") Integer id, @ModelAttribute editbds DTO){
+    public ResponseEntity<Object> updateBds(@PathVariable("id") Integer id, @ModelAttribute editbds DTO){
         editbds updatedBds = bdsService.updateBds(id, DTO);
         return ResponseEntity.ok(updatedBds);
     }

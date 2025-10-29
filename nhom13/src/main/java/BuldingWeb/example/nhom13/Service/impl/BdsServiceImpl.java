@@ -74,31 +74,10 @@ public class BdsServiceImpl implements BdsService {
                 .addMappings(mapper -> mapper.skip(BatDongSan::setMaBds));
         modelMapper.map(DTO, batDongSan);
 
-        List<HinhAnh> hinhAnhs = batDongSan.getHinhAnhList();
-        List<String> newDuongDans = DTO.getDuongDan();
-
-        hinhAnhs.removeIf(img -> !newDuongDans.contains(img.getDuongDan()));
-
-        for(String path : newDuongDans) {
-            boolean exists = hinhAnhs.stream()
-                    .anyMatch(img -> img.getDuongDan().equals(path));
-            if (!exists) {
-                HinhAnh newHinhAnh = new HinhAnh();
-                newHinhAnh.setDuongDan(path);
-                newHinhAnh.setBatDongSan(batDongSan);
-                hinhAnhs.add(newHinhAnh);
-            }
-        }
-        batDongSan.setHinhAnhList(hinhAnhs);
         BatDongSan savedBds = bdsRepository.save(batDongSan);
 
         editbds resultDTO = modelMapper.map(savedBds, editbds.class);
-        resultDTO.setDuongDan(
-                savedBds.getHinhAnhList()
-                        .stream()
-                        .map(HinhAnh::getDuongDan)
-                        .toList()
-        );
+
         return resultDTO;
     }
 
