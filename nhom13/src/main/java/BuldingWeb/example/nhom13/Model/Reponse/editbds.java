@@ -1,6 +1,9 @@
-package BuldingWeb.example.nhom13.Model;
+package BuldingWeb.example.nhom13.Model.Reponse;
 
-import BuldingWeb.example.nhom13.Enums.*;
+import BuldingWeb.example.nhom13.Enums.DonViTien;
+import BuldingWeb.example.nhom13.Enums.LoaiBDS;
+import BuldingWeb.example.nhom13.Enums.NoiThat;
+import BuldingWeb.example.nhom13.Enums.TrangThaiBDS;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -13,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ctbdsDTO {
+public class editbds{
     private int maBds;
     private String tieuDe;
     private String moTa;
@@ -33,11 +36,6 @@ public class ctbdsDTO {
     private Boolean thangMay;
     private String anhChinh;
     private LocalDateTime ngayTao;
-
-    private String anhDaiDien;
-    private String hoTen;
-    private VaiTro vaiTro;
-    private String soDienThoai;
 
     private List<String> duongDan;
 }

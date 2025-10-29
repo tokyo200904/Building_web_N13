@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class bdsDTO {
+    private Integer maBds;
     private String anhChinh;
     private String tieuDe;
     private BigDecimal dienTich;
