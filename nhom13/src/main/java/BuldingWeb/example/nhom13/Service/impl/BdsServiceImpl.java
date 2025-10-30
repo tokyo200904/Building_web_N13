@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,9 @@ public class BdsServiceImpl implements BdsService {
 
     @Autowired
     private BdsRepository bdsRepository;
+
+    @Autowired
+    UploadService uploadService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -71,9 +75,21 @@ public class BdsServiceImpl implements BdsService {
             throw new RuntimeException("khoong tim thay bds");}
 
         modelMapper.typeMap(editbds.class, BatDongSan.class)
-                .addMappings(mapper -> mapper.skip(BatDongSan::setMaBds));
+                .addMappings(mapper -> mapper.skip(BatDongSan::setMaBds))
+                .addMappings(mapper -> mapper.skip(BatDongSan::setAnhChinh));
         modelMapper.map(DTO, batDongSan);
 
+        if (Boolean.TRUE.equals(DTO.getRemoveCurrentMainImage())){
+            batDongSan.setAnhChinh(null);
+        }
+        if (DTO.getAnhChinhFile() != null && !DTO.getAnhChinhFile().isEmpty()){
+            try {
+                String filename = uploadService.saveFile(DTO.getAnhChinhFile());
+                batDongSan.setAnhChinh(filename);
+            }catch (IOException e){
+                throw new RuntimeException("loi tai anh" +e);
+            }
+        }
         BatDongSan savedBds = bdsRepository.save(batDongSan);
 
         editbds resultDTO = modelMapper.map(savedBds, editbds.class);
