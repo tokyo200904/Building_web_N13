@@ -57,7 +57,6 @@ public class TinTuc {
     @Column(name = "ngay_cap_nhat")
     private LocalDateTime ngayCapNhat;
 
-    // --- Relationships ---
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

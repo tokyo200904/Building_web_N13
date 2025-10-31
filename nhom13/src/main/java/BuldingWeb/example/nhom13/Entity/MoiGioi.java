@@ -35,6 +35,15 @@ public class MoiGioi {
 
     private String email;
 
+    @Column(name = "dia_chi")
+    private String diaChi;
+
+    @Column(name = "gioi_thieu", columnDefinition = "TEXT")
+    private String gioiThieu;
+
+    @Column(name = "hinh_anh")
+    private String hinhAnh;
+
     @CreationTimestamp
     @Column(name = "ngay_tao", updatable = false)
     private LocalDateTime ngayTao;
