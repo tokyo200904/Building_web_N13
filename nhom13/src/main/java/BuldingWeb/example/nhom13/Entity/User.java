@@ -35,7 +35,7 @@ import java.util.Set;
         @Column(unique = true, nullable = false)
         private String email;
 
-        @JsonIgnore // Không bao giờ trả mật khẩu ra API
+        @JsonIgnore
         @Column(name = "mat_khau", nullable = false)
         private String matKhau;
 
@@ -59,7 +59,7 @@ import java.util.Set;
         private String gioiThieu;
 
         @Column(name = "lien_ket_mxh", columnDefinition = "JSON")
-        private String lienKetMxh; // Lưu dưới dạng String JSON
+        private String lienKetMxh;
 
         @CreationTimestamp
         @Column(name = "ngay_tao", updatable = false)
@@ -125,32 +125,32 @@ import java.util.Set;
 
         @Override
         public String getPassword() {
-            return "";
+            return this.matKhau;
         }
 
         @Override
         public String getUsername() {
-            return "";
+            return this.email;
         }
 
         @Override
         public boolean isAccountNonExpired() {
-            return UserDetails.super.isAccountNonExpired();
+            return true;
         }
 
         @Override
         public boolean isAccountNonLocked() {
-            return UserDetails.super.isAccountNonLocked();
+            return true;
         }
 
         @Override
         public boolean isCredentialsNonExpired() {
-            return UserDetails.super.isCredentialsNonExpired();
+            return true;
         }
 
         @Override
         public boolean isEnabled() {
-            return UserDetails.super.isEnabled();
+            return true;
         }
     }
 
