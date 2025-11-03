@@ -1,12 +1,17 @@
 package BuldingWeb.example.nhom13.Configurations;
 
 import BuldingWeb.example.nhom13.Filters.JwtTokenFliter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -14,11 +19,10 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpMethod.PUT;
 
+
+@Configuration
+@EnableWebSecurity
 public class WebSecurityConfig {
 
     @Autowired
@@ -28,28 +32,48 @@ public class WebSecurityConfig {
     private String apiPrefix;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .addFilterBefore(jwtTokenFliter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> {
                     requests
                             .requestMatchers(
-                                    String.format("%s/dangnhap",apiPrefix),
-                                    String.format("%s/dangky",apiPrefix),
-                                    String.format("%s/search",apiPrefix)
+
+                                    String.format("/%s/dangnhap", apiPrefix),
+                                    String.format("/%s/dangKy", apiPrefix),
+                                    String.format("/%s/search", apiPrefix)
+
                             )
                             .permitAll()
-                            .requestMatchers(GET,String.format("%s/admin/bds/**",apiPrefix)).hasAnyRole("ADMIN")
-                            .requestMatchers(PUT,String.format("%s/admin/bds/**",apiPrefix)).hasAnyRole("ADMIN")
-                            .requestMatchers(POST,String.format("%s/admin/bds/**",apiPrefix)).hasAnyRole("ADMIN")
-                            .requestMatchers(DELETE,String.format("%s/admin/bds/**",apiPrefix)).hasAnyRole("ADMIN")
-                            .anyRequest().authenticated();
 
-                });
+                            .requestMatchers(HttpMethod.GET, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.PUT, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.POST, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.DELETE, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
+
+                            .anyRequest().authenticated();
+                })
+
+                .exceptionHandling(exceptions ->
+                        exceptions
+
+                                .authenticationEntryPoint((request, response, authException) ->
+                                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Chưa xác thực")
+                                )
+
+                                .accessDeniedHandler((request, response, accessDeniedException) ->
+                                        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Không có quyền truy cập")
+                                )
+                );
+
         return http.build();
     }
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
