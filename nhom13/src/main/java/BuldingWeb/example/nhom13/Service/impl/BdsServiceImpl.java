@@ -2,8 +2,7 @@ package BuldingWeb.example.nhom13.Service.impl;
 
 import BuldingWeb.example.nhom13.Entity.BatDongSan;
 import BuldingWeb.example.nhom13.Entity.HinhAnh;
-import BuldingWeb.example.nhom13.Model.HinhAnhDTO;
-import BuldingWeb.example.nhom13.Model.Reponse.editbds;
+import BuldingWeb.example.nhom13.Model.Reponse.editbdsReponse;
 import BuldingWeb.example.nhom13.Model.bdsDTO;
 import BuldingWeb.example.nhom13.Model.ctbdsDTO;
 import BuldingWeb.example.nhom13.Repository.BdsRepository;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,12 +67,12 @@ public class BdsServiceImpl implements BdsService {
 
     @Transactional
     @Override
-    public editbds updateBds(int maBds, editbds DTO) {
+    public editbdsReponse updateBds(int maBds, editbdsReponse DTO) {
         BatDongSan batDongSan = bdsRepository.findBdsBymaBds(maBds);
         if (batDongSan == null) {
             throw new RuntimeException("khoong tim thay bds");}
 
-        modelMapper.typeMap(editbds.class, BatDongSan.class)
+        modelMapper.typeMap(editbdsReponse.class, BatDongSan.class)
                 .addMappings(mapper -> mapper.skip(BatDongSan::setMaBds))
                 .addMappings(mapper -> mapper.skip(BatDongSan::setAnhChinh));
         modelMapper.map(DTO, batDongSan);
@@ -92,7 +90,7 @@ public class BdsServiceImpl implements BdsService {
         }
         BatDongSan savedBds = bdsRepository.save(batDongSan);
 
-        editbds resultDTO = modelMapper.map(savedBds, editbds.class);
+        editbdsReponse resultDTO = modelMapper.map(savedBds, editbdsReponse.class);
 
         return resultDTO;
     }

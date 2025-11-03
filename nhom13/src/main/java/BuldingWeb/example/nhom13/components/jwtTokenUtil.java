@@ -10,6 +10,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -35,6 +37,10 @@ public class jwtTokenUtil {
     public String generateToken(User userEntity) throws Exception{
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", userEntity.getEmail());
+        String roles = userEntity.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+        claims.put("roles", roles);
         try {
             String token = Jwts.builder()
                     .setClaims(claims)

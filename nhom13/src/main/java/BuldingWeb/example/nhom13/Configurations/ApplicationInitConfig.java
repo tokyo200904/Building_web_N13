@@ -26,7 +26,7 @@ public class ApplicationInitConfig {
     @Bean
     ApplicationRunner applicationRunner(UserReponsitory userRepository) {
         return args -> {
-            Optional<User> adminOpt = userRepository.findByvaitro("ADMIN");
+            Optional<User> adminOpt = userRepository.findByVaiTro(VaiTro.ADMIN);
             if (adminOpt.isEmpty()) {
                 User admin = new User();
                 admin.setHoTen("Dinh Phuc");
@@ -34,7 +34,7 @@ public class ApplicationInitConfig {
                 admin.setMatKhau(passwordEncoder.encode("123456"));
                 admin.setSoDienThoai("0123456789");
                 admin.setDiaChi("Rau ma city");
-                admin.setVaiTro(VaiTro.valueOf("ADMIN"));
+                admin.setVaiTro(VaiTro.ADMIN);
                 admin.setNgayTao(LocalDateTime.now());
                 admin.setAnhDaiDien("http://localhost:8081/d092483b-a88c-477f-bde0-b56299053e34.jpg");
                 admin.setGioiThieu("admin 17cm");

@@ -1,7 +1,6 @@
 package BuldingWeb.example.nhom13.Service;
 
-import BuldingWeb.example.nhom13.Entity.BatDongSan;
-import BuldingWeb.example.nhom13.Model.Reponse.editbds;
+import BuldingWeb.example.nhom13.Model.Reponse.editbdsReponse;
 import BuldingWeb.example.nhom13.Model.bdsDTO;
 import BuldingWeb.example.nhom13.Model.ctbdsDTO;
 
@@ -11,6 +10,6 @@ public interface BdsService {
     List<bdsDTO> getAllBds();
     ctbdsDTO getBdsById(int maBds);
     void deleteBds(int maBds);
-    editbds updateBds(int maBds, editbds DTO);
+    editbdsReponse updateBds(int maBds, editbdsReponse DTO);
     ctbdsDTO createBds(ctbdsDTO ctbdsDTO);
 }
