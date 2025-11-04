@@ -1,7 +1,6 @@
-package BuldingWeb.example.nhom13.Service.impl;
+package BuldingWeb.example.nhom13.Utils;
 
-
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -10,8 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-@Service
-public class UploadService {
+@Component
+public class UploadUtil {
 
     // Thư mục upload ngoài project
     private final String uploadDir = "D:/backendvs springboot/Building_web_N13/nhom13/upload/";

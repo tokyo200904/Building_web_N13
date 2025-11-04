@@ -4,5 +4,4 @@ public enum TrangThaiBDS {
     cho_thue,
     dang_xu_ly,
     da_ban;
-
 }

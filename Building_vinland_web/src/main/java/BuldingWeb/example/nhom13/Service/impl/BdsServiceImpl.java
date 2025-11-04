@@ -7,6 +7,7 @@ import BuldingWeb.example.nhom13.Model.bdsDTO;
 import BuldingWeb.example.nhom13.Model.ctbdsDTO;
 import BuldingWeb.example.nhom13.Repository.BdsRepository;
 import BuldingWeb.example.nhom13.Service.BdsService;
+import BuldingWeb.example.nhom13.Utils.UploadUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class BdsServiceImpl implements BdsService {
     private BdsRepository bdsRepository;
 
     @Autowired
-    UploadService uploadService;
+    UploadUtil uploadServiceImpl;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -82,7 +83,7 @@ public class BdsServiceImpl implements BdsService {
         }
         if (DTO.getAnhChinhFile() != null && !DTO.getAnhChinhFile().isEmpty()){
             try {
-                String filename = uploadService.saveFile(DTO.getAnhChinhFile());
+                String filename = uploadServiceImpl.saveFile(DTO.getAnhChinhFile());
                 batDongSan.setAnhChinh(filename);
             }catch (IOException e){
                 throw new RuntimeException("loi tai anh" +e);
