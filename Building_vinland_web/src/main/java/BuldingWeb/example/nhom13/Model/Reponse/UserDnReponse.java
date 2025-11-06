@@ -14,4 +14,5 @@ public class UserDnReponse {
         private String email;
         private String hoTen;
         private VaiTro vaiTro;
+        private String anhdaiDien;
 }

@@ -9,6 +9,6 @@ import java.util.List;
 public interface YeuCauDtService {
     List<YeuCauDtReponse> getAllYeuCauDt();
     void DuyetYeuCauDt(Integer idYeuCauDt);
-    void TuChoiYeuCauDt(Integer idYeuCauDt);
+    void TuChoiYeuCauDt(Integer idYeuCauDt, String lyDoTuChoi);
     chitietYcDtReponse getYeuCauDtById(Integer idYeuCauDt);
 }

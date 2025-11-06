@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
                     .hoTen(userEntity.getHoTen())
                     .email(userEntity.getEmail())
                     .vaiTro(userEntity.getVaiTro())
+                    .anhdaiDien(userEntity.getAnhDaiDien())
                     .build();
         }
     }

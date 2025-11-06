@@ -37,6 +37,7 @@ public class BatDongSan {
     @Column(name = "mo_ta", columnDefinition = "TEXT")
     private String moTa;
 
+    @Column(name = "gia")
     private BigDecimal gia;
 
     @Enumerated(EnumType.STRING)
@@ -69,6 +70,7 @@ public class BatDongSan {
     @Column(name = "so_phong_tam")
     private Integer soPhongTam;
 
+    @Column(name = "tang")
     private Integer tang;
 
     @Column(name = "tong_tang")

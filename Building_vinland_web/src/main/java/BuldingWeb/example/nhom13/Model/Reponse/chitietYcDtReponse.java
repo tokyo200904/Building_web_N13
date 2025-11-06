@@ -39,6 +39,10 @@ public class chitietYcDtReponse {
     private NoiThat noiThat;
     private Integer namXayDung;
 
+    private Boolean baiDoXe;
+    private Boolean banCong;
+    private Boolean thangMay;
+
     private String anhChinh;
     private List<String> anhPhu;
 }

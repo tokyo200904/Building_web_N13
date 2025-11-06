@@ -1,11 +1,14 @@
 package BuldingWeb.example.nhom13.Mapper;
 
-import BuldingWeb.example.nhom13.Entity.HinhAnh;
-import BuldingWeb.example.nhom13.Entity.HinhAnhYeuCau;
-import BuldingWeb.example.nhom13.Entity.YeuCauDangTin;
+import BuldingWeb.example.nhom13.Entity.*;
 import BuldingWeb.example.nhom13.Model.Reponse.YeuCauDtReponse;
 import BuldingWeb.example.nhom13.Model.Reponse.chitietYcDtReponse;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
 public class YeuCauMapper {
     public YeuCauDtReponse convertToDTO(YeuCauDangTin yeuCau) {
         YeuCauDtReponse dto = new YeuCauDtReponse();
@@ -49,13 +52,54 @@ public class YeuCauMapper {
         dto.setTongTang(dto.getTongTang());
         dto.setNoiThat(yeuCau.getNoiThat());
         dto.setNamXayDung(yeuCau.getNamXayDung());
+
         dto.setAnhChinh(yeuCau.getAnhChinh());
-        dto.setAnhPhu(
-        yeuCau.getHinhAnhYeuCauList()
-                        .stream()
-                        .map(HinhAnhYeuCau::getDuongDan)
-                        .toList()
-        );
+        if (yeuCau.getHinhAnhYeuCauList() !=null && !yeuCau.getHinhAnhYeuCauList().isEmpty()){
+        List<String> anhphu =  yeuCau.getHinhAnhYeuCauList()
+                .stream()
+                .map(HinhAnhYeuCau::getDuongDan)
+                .toList();
+        dto.setAnhPhu(anhphu);
+        }
         return dto;
+    }
+    public BatDongSan convertToBds(YeuCauDangTin yeuCau, User admin) {
+        BatDongSan bds = new BatDongSan();
+        bds.setTieuDe(yeuCau.getTieuDe());
+        bds.setMoTa(yeuCau.getMoTa());
+        bds.setGia(yeuCau.getGia());
+        bds.setDonViTien(yeuCau.getDonViTien());
+        bds.setDienTich(yeuCau.getDienTich());
+        bds.setViTri(yeuCau.getViTri());
+        bds.setQuanHuyen(yeuCau.getQuanHuyen());
+        bds.setThanhPho(yeuCau.getThanhPho());
+        bds.setLoaiBds(yeuCau.getLoaiBds());
+        bds.setTrangThai(yeuCau.getTrangThai());
+        bds.setSoPhongNgu(yeuCau.getSoPhongNgu());
+        bds.setSoPhongTam(yeuCau.getSoPhongTam());
+        bds.setTang(yeuCau.getTang());
+        bds.setTongTang(yeuCau.getTongTang());
+        bds.setNoiThat(yeuCau.getNoiThat());
+        bds.setNamXayDung(yeuCau.getNamXayDung());
+        bds.setAnhChinh(yeuCau.getAnhChinh());
+        bds.setThangMay(yeuCau.getThangMay());
+        bds.setBaiDoXe(yeuCau.getBaiDoXe());
+        bds.setBanCong(yeuCau.getBanCong());
+        if (yeuCau.getHinhAnhYeuCauList()!=null && !yeuCau.getHinhAnhYeuCauList().isEmpty()){
+            List<HinhAnh> hinhAnhs = new ArrayList<>();
+            for (HinhAnhYeuCau anhYeuCau : yeuCau.getHinhAnhYeuCauList()){
+                HinhAnh anhmoi = new HinhAnh();
+                anhmoi.setDuongDan(anhYeuCau.getDuongDan());
+                anhmoi.setBatDongSan(bds);
+                hinhAnhs.add(anhmoi);
+            }
+            bds.setHinhAnhList(hinhAnhs);
+        }
+
+        bds.setUser(yeuCau.getUserGuiYeuCau());
+        bds.setUserDuyet(yeuCau.getUserDuyet());
+        bds.setNgayTao(yeuCau.getNgayTaoYeuCau());
+
+        return bds;
     }
 }
