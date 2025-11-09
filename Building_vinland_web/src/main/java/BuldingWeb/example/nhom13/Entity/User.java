@@ -69,7 +69,8 @@ import java.util.Set;
         @Column(name = "ngay_cap_nhat")
         private LocalDateTime ngayCapNhat;
 
-
+        @Column(name = "is_banned", nullable = false, columnDefinition = "boolean default false")
+        private boolean isBanned = false;
 
         @JsonIgnore
         @OneToMany(mappedBy = "user")
@@ -140,7 +141,7 @@ import java.util.Set;
 
         @Override
         public boolean isAccountNonLocked() {
-            return true;
+            return !this.isBanned;
         }
 
         @Override

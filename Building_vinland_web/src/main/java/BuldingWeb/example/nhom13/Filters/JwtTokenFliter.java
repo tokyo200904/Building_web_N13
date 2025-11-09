@@ -59,7 +59,7 @@ public class JwtTokenFliter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
             }
-            filterChain.doFilter(request, response); //enable bypass
+            filterChain.doFilter(request, response);
 
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
@@ -68,9 +68,9 @@ public class JwtTokenFliter extends OncePerRequestFilter {
 
     private boolean isBypassToken(@NonNull HttpServletRequest request) {
         final List<Pair<String, String>> bypassTokens = Arrays.asList(
-                Pair.of(String.format("%s/dangky", apiPrefix), "POST"),
-                Pair.of(String.format("%s/dangnhap", apiPrefix), "POST"),
-                Pair.of(String.format("%s/search", apiPrefix), "GET")
+                Pair.of(String.format("/%s/dangKy", apiPrefix), "POST"),
+                Pair.of(String.format("/%s/dangnhap", apiPrefix), "POST"),
+                Pair.of(String.format("/%s/search", apiPrefix), "GET")
         );
         for(Pair<String, String> bypassToken: bypassTokens) {
             if (request.getServletPath().contains(bypassToken.getFirst()) &&

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,11 +20,14 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 import static org.springframework.http.HttpMethod.*;
 
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class WebSecurityConfig {
 
     @Autowired
@@ -39,9 +44,11 @@ public class WebSecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+
                 .addFilterBefore(jwtTokenFliter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> {
                     requests
+                            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                             .requestMatchers(
 
                                     String.format("/%s/dangnhap", apiPrefix),
@@ -51,10 +58,21 @@ public class WebSecurityConfig {
                             )
                             .permitAll()
 
-                            .requestMatchers(HttpMethod.GET, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.GET, String.format("/%s/admin/bds**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(HttpMethod.PUT, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(HttpMethod.POST, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(HttpMethod.DELETE, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
+
+                            .requestMatchers(HttpMethod.GET,String.format("/%s/admin/duyettin/**", apiPrefix)).hasAnyRole("ADMIN","NHANVIEN")
+                            .requestMatchers(HttpMethod.PUT,String.format("/%s/admin/duyettin/**", apiPrefix)).hasAnyRole("ADMIN","NHANVIEN")
+
+                            .requestMatchers(HttpMethod.POST, String.format("/%s/admin/dangtin/**", apiPrefix))
+                            .hasAnyRole("ADMIN","NHANVIEN","AGENT")
+
+                            .requestMatchers(HttpMethod.GET, apiPrefix + "/admin/user").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.GET,String.format("/%s/admin/user/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.POST,String.format("/%s/admin/user/**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.PUT,String.format("/%s/admin/user/**", apiPrefix)).hasRole("ADMIN")
 
                             .anyRequest().authenticated();
                 })
@@ -78,11 +96,10 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("*");
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
+        configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500", "http://localhost:5500"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
