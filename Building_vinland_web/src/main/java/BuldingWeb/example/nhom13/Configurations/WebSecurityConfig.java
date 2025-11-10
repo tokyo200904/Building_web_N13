@@ -69,7 +69,7 @@ public class WebSecurityConfig {
                             .requestMatchers(HttpMethod.POST, String.format("/%s/admin/dangtin/**", apiPrefix))
                             .hasAnyRole("ADMIN","NHANVIEN","AGENT")
 
-                            .requestMatchers(HttpMethod.GET, apiPrefix + "/admin/user").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.GET,String.format("/%s/admin/user", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(HttpMethod.GET,String.format("/%s/admin/user/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(HttpMethod.POST,String.format("/%s/admin/user/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(HttpMethod.PUT,String.format("/%s/admin/user/**", apiPrefix)).hasRole("ADMIN")
