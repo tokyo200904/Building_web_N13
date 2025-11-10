@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}/admin/duyettin")
-@PreAuthorize("hasRole('ADMIN','NHANVIEN')")
+@PreAuthorize("hasAnyRole('ADMIN','NHANVIEN')")
 public class DuyetTinController {
     @Autowired
     private YeuCauDtService yeuCauDtService;

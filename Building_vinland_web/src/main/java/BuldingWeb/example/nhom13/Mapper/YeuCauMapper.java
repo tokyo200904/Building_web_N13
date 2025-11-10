@@ -49,9 +49,12 @@ public class YeuCauMapper {
         dto.setSoPhongNgu(yeuCau.getSoPhongNgu());
         dto.setSoPhongTam(yeuCau.getSoPhongTam());
         dto.setTang(yeuCau.getTang());
-        dto.setTongTang(dto.getTongTang());
+        dto.setTongTang(yeuCau.getTongTang());
         dto.setNoiThat(yeuCau.getNoiThat());
         dto.setNamXayDung(yeuCau.getNamXayDung());
+        dto.setBaiDoXe(yeuCau.getBaiDoXe());
+        dto.setBanCong(yeuCau.getBanCong());
+        dto.setThangMay(yeuCau.getThangMay());
 
         dto.setAnhChinh(yeuCau.getAnhChinh());
         if (yeuCau.getHinhAnhYeuCauList() !=null && !yeuCau.getHinhAnhYeuCauList().isEmpty()){

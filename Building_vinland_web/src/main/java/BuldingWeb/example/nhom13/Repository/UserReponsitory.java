@@ -18,6 +18,6 @@ public interface UserReponsitory extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.vaiTro = :role " +
             "AND (LOWER(u.hoTen) LIKE LOWER(CONCAT('%', :search, '%')) " +
             "OR LOWER(u.email) LIKE LOWER(CONCAT('%', :search, '%')))")
-    List<User> findByVaiTroAndSearch(VaiTro vaiTro, String search);
+    List<User> findByVaiTroAndSearch(VaiTro role, String search);
 
 }

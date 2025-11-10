@@ -10,6 +10,7 @@ import BuldingWeb.example.nhom13.Repository.UserReponsitory;
 import BuldingWeb.example.nhom13.Service.UserService;
 import BuldingWeb.example.nhom13.Utils.TtNdUtil;
 import BuldingWeb.example.nhom13.components.jwtTokenUtil;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -79,6 +80,7 @@ public class UserServiceImpl implements UserService {
         return UserReponse.fromEntity(user);
     }
 
+    @Transactional
     @Override
     public void updateUserRole(Integer adminUserId, Integer targetUserId, String newRoleString) throws Exception {
         User adminUser = userReponsitory.findById(adminUserId).get();
@@ -107,6 +109,7 @@ public class UserServiceImpl implements UserService {
         userReponsitory.save(targatUser);
     }
 
+    @Transactional
     @Override
     public void banUser(Integer adminUserId, Integer targetUserId) throws Exception {
             User adminUser = userReponsitory.findById(adminUserId).orElseThrow(()->new RuntimeException("khong tim thay user"));
@@ -120,14 +123,13 @@ public class UserServiceImpl implements UserService {
             usertarget.setBanned(true);
             userReponsitory.save(usertarget);
     }
-
+    @Transactional
     @Override
     public void unbanUser(Integer targetUserId) throws Exception {
             User targetUser = userReponsitory.findById(targetUserId).orElseThrow(() -> new Exception("khong tim thay user"));
             targetUser.setBanned(false);
             userReponsitory.save(targetUser);
     }
-
     @Override
     public List<UserReponse> findUsersByRoleAndSearch(VaiTro role, String search) {
         String search1 = (search == null)? "" : search;
