@@ -25,9 +25,6 @@ public class YeuCauDangTinTuc {
     @Column(name = "ma_yctt")
     private Integer maYeuCauTt;
 
-    @Column(name = "ma_cm")
-    private Integer maCm;
-
     @Column(name = "tieu_de", nullable = false, length = 255)
     private String tieuDe;
 
@@ -66,6 +63,4 @@ public class YeuCauDangTinTuc {
     @JoinColumn(name = "user_id_duyet")
     private User userDuyet;
 
-    @OneToMany(mappedBy = "yeuCauDangTinTuc", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HinhAnhYeuCauTinTuc> hinhAnhYeuCauTinTucList;
 }

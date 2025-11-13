@@ -58,7 +58,7 @@ public class WebSecurityConfig {
                             )
                             .permitAll()
 
-                            .requestMatchers(HttpMethod.GET, String.format("/%s/admin/bds**", apiPrefix)).hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.GET, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(HttpMethod.PUT, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(HttpMethod.POST, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(HttpMethod.DELETE, String.format("/%s/admin/bds/**", apiPrefix)).hasRole("ADMIN")
@@ -74,6 +74,14 @@ public class WebSecurityConfig {
                             .requestMatchers(HttpMethod.POST,String.format("/%s/admin/user/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(HttpMethod.PUT,String.format("/%s/admin/user/**", apiPrefix)).hasRole("ADMIN")
 
+                            .requestMatchers(HttpMethod.POST, String.format("/%s/admin/tintuc/dangtin", apiPrefix))
+                            .hasAnyRole("ADMIN", "NHANVIEN", "AGENT")
+
+                            .requestMatchers(HttpMethod.GET, String.format("/%s/admin/tintuc/duyettin/**", apiPrefix))
+                            .hasAnyRole("ADMIN", "NHANVIEN")
+
+                            .requestMatchers(HttpMethod.PUT, String.format("/%s/admin/tintuc/duyettin/**", apiPrefix))
+                            .hasAnyRole("ADMIN", "NHANVIEN")
                             .anyRequest().authenticated();
                 })
 

@@ -39,8 +39,4 @@ public class HinhAnh {
     @JoinColumn(name = "ma_bds")
     private BatDongSan batDongSan;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ma_tin", nullable = false) 
-    private TinTuc tinTuc;
 }

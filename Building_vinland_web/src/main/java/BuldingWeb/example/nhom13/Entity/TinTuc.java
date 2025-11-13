@@ -24,14 +24,11 @@ public class TinTuc {
     @Column(name = "ma_tin")
     private Integer maTin;
 
-    @Column(name = "ma_cm")
-    private Integer maCm; // Bạn chưa có bảng Chuyên Mục, nên tạm để là Integer
-
     @Column(name = "tieu_de", nullable = false)
     private String tieuDe;
 
     @Column(name = "duong_dan", unique = true, nullable = false)
-    private String duongDan; // Slug
+    private String duongDan;
 
     @Column(name = "noi_dung", columnDefinition = "LONGTEXT")
     private String noiDung;
@@ -56,7 +53,6 @@ public class TinTuc {
     @UpdateTimestamp
     @Column(name = "ngay_cap_nhat")
     private LocalDateTime ngayCapNhat;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
