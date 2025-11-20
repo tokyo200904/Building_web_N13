@@ -13,7 +13,7 @@ import java.util.UUID;
 public class UploadUtil {
 
     // Thư mục upload ngoài project
-    private final String uploadDir = "D:/backendvs springboot/Building_web_N13/nhom13/upload/";
+    private final String uploadDir = "D:\\backendvs springboot\\Building_web_N13\\nhom13\\upload\\";
 
     public String saveFile(MultipartFile file) throws IOException {
         if (file == null || file.isEmpty()) {

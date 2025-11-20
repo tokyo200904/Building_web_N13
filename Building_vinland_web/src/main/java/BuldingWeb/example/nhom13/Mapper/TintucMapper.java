@@ -7,6 +7,8 @@ import BuldingWeb.example.nhom13.Enums.TrangThaiTinTuc;
 import BuldingWeb.example.nhom13.Enums.TrangThaiYeuCauTinTuc;
 import BuldingWeb.example.nhom13.Model.Reponse.DetailTtReponse;
 import BuldingWeb.example.nhom13.Model.Reponse.dangTinTucReponse;
+import BuldingWeb.example.nhom13.Model.TinTucDTO;
+import BuldingWeb.example.nhom13.Model.TinTucDetailDTO;
 import BuldingWeb.example.nhom13.Model.YeuCauTinTucDTO;
 import org.springframework.stereotype.Component;
 
@@ -84,5 +86,32 @@ public class TintucMapper {
         }
 
         return dto;
+    }
+
+
+    public TinTucDTO mapTinTucToDto(TinTuc tinTuc) {
+        return TinTucDTO.builder()
+                .maTin(tinTuc.getMaTin())
+                .tieuDe(tinTuc.getTieuDe())
+                .anhDaiDien(tinTuc.getAnhDaiDien())
+                .trangThai(tinTuc.getTrangThai())
+                .tenNguoiDang(tinTuc.getUser() != null ? tinTuc.getUser().getHoTen() : "N/A")
+                .ngayTao(tinTuc.getNgayTao())
+                .build();
+    }
+
+
+    public TinTucDetailDTO mapTinTucToDetailDto(TinTuc tinTuc) {
+        return TinTucDetailDTO.builder()
+                .maTin(tinTuc.getMaTin())
+                .tieuDe(tinTuc.getTieuDe())
+                .noiDung(tinTuc.getNoiDung())
+                .anhDaiDien(tinTuc.getAnhDaiDien())
+                .tenNguoiDang(tinTuc.getUser() != null ? tinTuc.getUser().getHoTen() : "N/A")
+                .ngayTao(tinTuc.getNgayTao())
+                .ngayXuatBan(tinTuc.getNgayXuatBan())
+                .trangThai(tinTuc.getTrangThai())
+                .luotXem(tinTuc.getLuotXem())
+                .build();
     }
 }

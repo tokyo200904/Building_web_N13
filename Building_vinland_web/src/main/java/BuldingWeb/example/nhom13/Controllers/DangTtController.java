@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}/admin/tintuc")
-@PreAuthorize("hasAnyRole('ADMIN', 'EDITOR', 'AGENT')")
+@PreAuthorize("hasAnyRole('ADMIN', 'NHANVIEN', 'AGENT')")
 public class DangTtController {
     @Autowired
     private YeuCauDttService yeuCauDttService;

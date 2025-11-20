@@ -77,7 +77,8 @@ import java.util.Set;
         private List<BatDongSan> batDongSanList;
 
         @JsonIgnore
-        @OneToOne(mappedBy = "user")
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "ma_moi_gioi")
         private MoiGioi moiGioi;
 
         @JsonIgnore

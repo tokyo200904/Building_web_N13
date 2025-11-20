@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -33,6 +34,7 @@ public class MoiGioi {
     @Column(name = "so_dien_thoai")
     private String soDienThoai;
 
+    @Column(name = "email")
     private String email;
 
     @Column(name = "dia_chi")
@@ -54,7 +56,6 @@ public class MoiGioi {
 
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany(mappedBy = "moiGioi", fetch = FetchType.LAZY)
+    private List<User> user;
 }

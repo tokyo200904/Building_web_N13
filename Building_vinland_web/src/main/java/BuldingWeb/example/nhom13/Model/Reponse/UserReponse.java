@@ -19,6 +19,7 @@ public class UserReponse {
     private String anhDaiDien;
     private VaiTro vaiTro;
     private boolean isBanned;
+
     public static UserReponse fromEntity(User user) {
         return UserReponse.builder()
                 .userId(user.getUserId())
