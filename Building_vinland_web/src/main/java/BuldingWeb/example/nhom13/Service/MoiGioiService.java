@@ -10,4 +10,6 @@ public interface MoiGioiService {
     public MoiGioiDTO getMoiGioiById(Integer id);
     public void saveMoiGioi(MoiGioiDTO dto, MultipartFile imageFile) throws Exception;
     public void deleteMoiGioi(Integer id);
+    public void addNhanVienMoiGioi(Integer moiGioiId, String email);
+    public void xoaNhanVienMoiGioi(Integer moiGioiId, Integer idNhanVien) throws Exception;
 }

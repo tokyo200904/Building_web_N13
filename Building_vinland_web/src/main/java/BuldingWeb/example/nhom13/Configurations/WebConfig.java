@@ -1,18 +1,28 @@
 package BuldingWeb.example.nhom13.Configurations;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    @Value("${app.upload.dir}")
+    private String uploadDir;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        Path uploadPath = Paths.get(uploadDir).toAbsolutePath();
+        String location = "file:" + uploadPath.toString();
+        if (!location.endsWith("/")) {
+            location += "/";
+        }
+
         registry.addResourceHandler("/upload/**")
-                .addResourceLocations("file:D:/backendvs springboot/Building_web_N13/nhom13/upload/");
-        // Nếu thư mục upload nằm ngay cạnh thư mục gốc project
-        // Hoặc dùng đường dẫn tuyệt đối nếu cần
-        // .addResourceLocations("file:/C:/path/to/your/upload/");
+                .addResourceLocations(location);
     }
 }

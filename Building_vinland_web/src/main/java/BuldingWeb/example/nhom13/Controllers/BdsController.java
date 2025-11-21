@@ -18,7 +18,7 @@ public class BdsController {
     private BdsService bdsService;
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<bdsDTO>> getAllBds() {
         List<bdsDTO> bdsDTOS = bdsService.getAllBds();
         return ResponseEntity.ok(bdsDTOS);

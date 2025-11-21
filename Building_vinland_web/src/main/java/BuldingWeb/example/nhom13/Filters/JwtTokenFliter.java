@@ -38,11 +38,11 @@ public class JwtTokenFliter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NotNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
+        if (isBypassToken(request)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         try {
-            if (isBypassToken(request)) {
-                filterChain.doFilter(request, response);
-                return;
-            }
             final String authHeader = request.getHeader("Authorization");
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
@@ -67,13 +67,17 @@ public class JwtTokenFliter extends OncePerRequestFilter {
     }
 
     private boolean isBypassToken(@NonNull HttpServletRequest request) {
+        String servletPath = request.getServletPath();
+        if (servletPath.startsWith("/upload/")) {
+            return true;
+        }
         final List<Pair<String, String>> bypassTokens = Arrays.asList(
                 Pair.of(String.format("/%s/dangKy", apiPrefix), "POST"),
                 Pair.of(String.format("/%s/dangnhap", apiPrefix), "POST"),
                 Pair.of(String.format("/%s/search", apiPrefix), "GET")
         );
         for(Pair<String, String> bypassToken: bypassTokens) {
-            if (request.getServletPath().contains(bypassToken.getFirst()) &&
+            if (servletPath.startsWith(bypassToken.getFirst()) &&
                     request.getMethod().equals(bypassToken.getSecond())) {
                 return true;
             }

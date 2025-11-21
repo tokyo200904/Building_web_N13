@@ -87,5 +87,34 @@ public class MoiGioiServiceImpl implements MoiGioiService {
         moiGioiRepository.deleteById(id);
     }
 
+    @Override
+    public void addNhanVienMoiGioi(Integer moiGioiId, String email) {
+        MoiGioi company = moiGioiRepository.findById(moiGioiId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy môi giới với ID: " + moiGioiId));
+
+        User nhanVien = userReponsitory.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy nhân viên với email: " + email));
+        if (nhanVien.getMoiGioi() != null) {
+            throw new RuntimeException("Người dùng này đã thuộc về một công ty khác: " + nhanVien.getMoiGioi().getTenCongTy());
+        }
+        nhanVien.setMoiGioi(company);
+        if (nhanVien.getVaiTro() == VaiTro.CUSTOMER) {
+            nhanVien.setVaiTro(VaiTro.AGENT);
+        }
+        userReponsitory.save(nhanVien);
+    }
+
+
+    @Override
+    public void xoaNhanVienMoiGioi(Integer moiGioiId, Integer idNhanVien) throws Exception {
+        User nhanVien = userReponsitory.findById(idNhanVien)
+                .orElseThrow(() -> new RuntimeException("Nhân viên không tồn tại."));
+        if (nhanVien.getMoiGioi() == null || !nhanVien.getMoiGioi().getMaMoiGioi().equals(moiGioiId)) {
+            throw new RuntimeException("Nhân viên này không thuộc công này");
+        }
+        nhanVien.setMoiGioi(null);
+        userReponsitory.save(nhanVien);
+    }
+
 }
 

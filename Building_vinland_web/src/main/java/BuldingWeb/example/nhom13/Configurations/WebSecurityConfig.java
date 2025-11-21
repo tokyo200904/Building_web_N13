@@ -49,6 +49,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests -> {
                     requests
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                            .requestMatchers("/upload/**").permitAll()
                             .requestMatchers(
 
                                     String.format("/%s/dangnhap", apiPrefix),
